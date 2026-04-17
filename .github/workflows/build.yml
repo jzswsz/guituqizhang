@@ -20,7 +20,7 @@ jobs:
       - name: 安装 Electron
         run: npm install electron electron-builder --save-dev
       - name: 打包 exe
-        run: npm run electron:build
+        run: npm run electron:build -- --publish never
         env:
           ELECTRON_MIRROR: https://registry.npmmirror.com/-/binary/electron/
       - name: 上传文件
