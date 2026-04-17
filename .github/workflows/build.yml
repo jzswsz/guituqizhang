@@ -1,0 +1,30 @@
+name: Build Electron App
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 安装依赖
+        run: npm install
+      - name: 构建 Vue
+        run: npm run build
+      - name: 安装 Electron
+        run: npm install electron electron-builder --save-dev
+      - name: 打包 exe
+        run: npm run electron:build
+        env:
+          ELECTRON_MIRROR: https://registry.npmmirror.com/-/binary/electron/
+      - name: 上传文件
+        uses: actions/upload-artifact@v4
+        with:
+          name: 归途七章-安装包
+          path: dist_electron/*.exe
